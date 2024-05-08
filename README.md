@@ -1,2 +1,2 @@
 # BrainOfTheOverthinker
-- TICTACTOE 2024
+- TICTACTOE pygame 2024
