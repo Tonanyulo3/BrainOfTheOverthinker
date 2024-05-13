@@ -1,6 +1,6 @@
 import pygame as pg
 from pygame.image import load
-from pygame.locals import K_SPACE
+from pygame.locals import K_SPACE, K_1
 from os.path import join
 import sys, random
 
@@ -125,11 +125,16 @@ def main():
                         self.ai = True #switch to ai's turn
                         break
 
-            #play of ai
-            if self.ai and not self.b7.index == 0:
-                self.t = 0 if (self.turn == self.cross) else 1
-                self.aiplay()
-            
+            #buttons perform
+            self.b4perform()
+            self.b6perform()
+            if self.b6.open:
+                self.b1perform()
+                self.b2perform()
+                self.b3perform()
+                self.b5perform()
+                self.b7perform()
+
             #turn title blit
             wsr = self.ws[self.t].get_rect(); wsr.center = (250, 25)
             SCREEN.blit(self.ws[self.t], wsr)
@@ -145,23 +150,17 @@ def main():
                     if self.b2.index == 0:
                         self.nsr[l].center = r.center
                         SCREEN.blit(self.ns[l], self.nsr[l])
-
-            #buttons perform
-            self.b4perform()
-            self.b6perform()
-            if self.b6.open:
-                self.b1perform()
-                self.b2perform()
-                self.b3perform()
-                self.b5perform()
-                self.b7perform()
-
             #points perform
             SCREEN.blit(self.mcross, pg.Rect((10, 10), (0, 0)))
             SCREEN.blit(self.mnought, pg.Rect((460, 10), (0, 0)))
             SCREEN.blit(self.ps[0], pg.Rect((45, 15), (0, 0)))
             ps1r = self.ps[1].get_rect(); ps1r.topright = (455, 15)
             SCREEN.blit(self.ps[1], ps1r)
+
+            #play of ai
+            if self.ai and not self.b7.index == 0:
+                self.t = 0 if (self.turn == self.cross) else 1
+                self.aiplay()
 
 
         def lsminus(self):
@@ -236,10 +235,15 @@ def main():
         def b7perform(self):
             SCREEN.blit(self.b7.rimage(), self.b7.rect)
             if self.pressed(self.b7.rect, self.b7.v):
-                if self.b7.index == 0:
-                    if self.index == 0: self.b7.index = 1
-                    else: self.b7.index = 2
-                else: self.b7.index = 0
+                self.b7func(True)
+
+        def b7func(self, b=False):
+            if self.b7.index == 0:
+                if self.index == 0: self.b7.index = 1
+                else: self.b7.index = 2
+            elif b and not self.b7.index == 0:
+                self.b7.index = 0
+            self.ai = True
 
         def turnswitch(self):
             if self.turn == self.nought:
@@ -308,6 +312,8 @@ def main():
             if event.type == pg.KEYDOWN:
                 if event.key == K_SPACE:
                     ttt.tablereset()
+                if event.key == K_1:
+                    ttt.b7func()
 
         ttt.perform()
 
