@@ -21,4 +21,5 @@ Features:
 - Wins counter.
 - Sound effects on symbol placement and matching line.
 - Restart match by pressing space key.
+- Activate AI mode by pressing 1. This allows you to efficiently let AI start the match and enables battle between AIs (random bullshit go).
 - No memes 😩
